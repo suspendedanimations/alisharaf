@@ -1,0 +1,81 @@
+{
+  "name": "bigwheel",
+  "version": "1.0.0",
+  "description": "bigwheel + gulp + browserify + babelify",
+  "main": "gulpfile.js",
+  "browser": {
+    "framework": "./assets/js/framework",
+    "config": "./assets/js/config",
+    "utils": "./assets/js/utils",
+    "gsap-splitext": "./assets/js/lib/gsap/src/uncompressed/utils/SplitText.js"
+  },
+  "dependencies": {
+    "bigwheel": "3.0.0",
+    "bw-router": "^2.0.5",
+    "bw-viewmediator": "2.1.0",
+    "bw-vm": "^2.1.3",
+    "dom-classes": "npm-dom/dom-classes",
+    "dom-create-element": "^1.0.2",
+    "dom-event": "npm-dom/dom-event",
+    "dom-events": "npm-dom/dom-events",
+    "dom-select": "npm-dom/dom-select",
+    "gsap": "1.18.0",
+    "hammerjs": "^2.0.6",
+    "hamsterjs": "^1.1.2",
+    "mo-js": "^0.147.4",
+    "perfnow": "^0.2.0",
+    "performance-now": "^0.2.0",
+    "pixi-svg-graphics": "0.0.2",
+    "pixi.js": "^3.0.10",
+    "please-ajax": "^2.0.2",
+    "prefix": "^0.2.4",
+    "promise": "7.0.4",
+    "query-dom-components": "0.0.7",
+    "raf": "^3.2.0",
+    "slider-manager": "^1.0.1",
+    "smooth-scrolling": "^2.1.7",
+    "three-fx-composer": "0.0.1"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.5.0",
+    "babelify": "^7.2.0",
+    "browser-sync": "^2.9.3",
+    "browserify": "^11.1.0",
+    "connect-history-api-fallback": "^1.1.0",
+    "es6-promise": "^3.0.2",
+    "gulp": "^3.8.11",
+    "gulp-autoprefixer": "^0.0.10",
+    "gulp-changed": "^1.3.0",
+    "gulp-concat": "^2.3.5",
+    "gulp-less": "^3.0.5",
+    "gulp-minify-css": "^0.3.13",
+    "gulp-notify": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.4",
+    "lodash.assign": "^3.2.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "vinyl-transform": "^1.0.0",
+    "watchify": "^3.6.1"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "only": "assets/js/",
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jam3",
+  "license": "ISC"
+}

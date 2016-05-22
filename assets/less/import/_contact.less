@@ -1,0 +1,105 @@
+.page-contact {
+    background: #bfbfbf;
+
+    @media @mobile {
+        padding: @180px @35px @80px;
+    }
+
+    span {
+        cursor: auto;
+
+        &.link {
+            position: relative;
+
+            &:after {
+                background-color: @dark;
+                transform: none;
+            }
+        }
+    }
+
+    .p {
+        > div {
+            display: block;
+            overflow: hidden;
+        }
+        
+        span {
+            display: block;
+            font: @regular @58px/1.1 @font;
+            margin-bottom: @15px;
+
+            @media @mobile {
+                font-size: @30px;
+                line-height: 1;
+            }
+
+            &.link {
+                display: inline-block;
+
+                &:after {
+                    height: 2px;
+                }
+            }
+        }
+
+        a {
+            font: @regular @58px/1 @font;
+
+            @media @mobile {
+                font-size: @30px;
+                line-height: 1;
+            }
+
+            &:after {
+                height: 2px;
+                background-color: @dark;
+            }
+        }
+    }
+
+    .right {
+        position: absolute;
+        top: 0; right: 0;
+
+        @media @mobile {
+            position: relative; top: auto; right: auto;
+            margin-top: @35px;
+        }
+        
+        .el {
+            &:not(:first-child) {
+                margin-top: @5px;
+            }
+
+            &:not(:last-child) {
+                margin-bottom: @50px;
+
+                @media @mobile {
+                    margin-bottom: @20px;
+                }
+            }
+        }
+
+        p {
+            font: @book @15px/1.3 @font;
+            max-width: @150px;
+
+            @media @mobile {
+                font-size: @18px;
+            }
+        }
+    }
+
+    .credit {
+        position: absolute;
+        bottom: 140px;
+        right: -50px;
+        font: @regular @12px @font;
+        transform: rotate(-90deg);
+
+        @media @mobile {
+            display: none;
+        }
+    }
+}

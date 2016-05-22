@@ -1,0 +1,47 @@
+{% extends "_base.twig" %}
+
+{% block content %}
+    {% if not isAJAX %}<section id="page-contact" class="page page-contact is-hidden">{% endif %}
+    <div class="vertical-center">
+        <div class="vertical-el">
+            <div class="device-content">
+                <div class="p">
+                    <div>
+                        <span class="link">Say hello:</span>
+                    </div>
+                    <div>
+                        <span>{{ option.email }} &amp;</span>
+                    </div>
+                    <div>
+                        <span>{{ option.phone }}</span>
+                    </div>
+                    <div>
+                        <span class="link">Follow me:</span>
+                    </div>
+                    <div>
+                        <span>
+                            <a href="{{ option.facebook }}" target="_blank">Facebook</a>
+                            <a href="{{ option.twitter }}" target="_blank">Twitter</a>
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <a href="{{ option.instagram }}" target="_blank">Instagram</a>
+                            <a href="{{ option.tumblr }}" target="_blank">Tumblr</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="right">
+                    {% for item in option.block %}
+                        <div class="el">
+                            <span class="link">{{ item.title }}</span>
+                            {{ item.paragraph }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="http://www.sa-studio.fr" target="_blank" class="credit link">Website by Suspended Animations™</a>
+    {% if not isAJAX %}</section>{% endif %}
+{% endblock %}

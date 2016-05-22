@@ -1,0 +1,21 @@
+/* -----
+Preloader
+----- */
+.is-loading {
+
+}
+
+.preloader {
+    .absolute();
+    transition: opacity 1s @easeOutExpo;
+    opacity: 0;
+    
+    .background {
+        .absolute();
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        transform: scale(1.2);
+        transition: opacity 1.5s @easeOutExpo, transform 2.6s @easeOutExpo;
+    }
+}

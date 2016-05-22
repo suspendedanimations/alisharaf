@@ -1,0 +1,15 @@
+{% extends "_base.twig" %}
+
+{% block content %}
+	{% if not isAJAX %}<section id="page-diary" class="page page-diary is-hidden">{% endif %}
+    <span class="link all ui-all">All</span>
+    <div class="section">
+        {% for post in diary %}
+            <a href="/diary/{{ post.slug }}" class="el el--{{ loop.index is odd ? 'left' : 'right' }} intrinsic intrinsic--{{ loop.index is odd ? 'landscape' : 'portrait' }} ui-{{ loop.index is odd ? 'left' : 'right' }}">
+                <div class="el" style="background-image: url('{{ TimberImage(post.get_field('thumbnail')) }}');"></div>
+                <label>{{ post.label }}</label>
+            </a>
+        {% endfor %}
+    </div>
+    {% if not isAJAX %}</section>{% endif %}
+{% endblock %}

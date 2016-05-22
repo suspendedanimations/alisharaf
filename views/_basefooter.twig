@@ -1,0 +1,15 @@
+    {% if not isAJAX %}
+    </div>
+        <script>
+        window.APP = window.APP || {};
+        APP.VARS = {};
+        APP.BASE_URL = '{{ site.url }}';
+        APP.THEME_URL = '{{ site.theme.uri }}';
+        APP.AJAX_URL = '{{ function('admin_url', 'admin-ajax.php') }}';
+        APP.IMAGES = {{ option.images|json_encode() }}
+        </script>
+        <script type="text/javascript" src="{{ site.theme.link }}/build/app.js"></script>
+        {{ wp_footer }}
+    {% endif %}
+    </body>
+</html>

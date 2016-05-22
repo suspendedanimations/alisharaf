@@ -1,0 +1,538 @@
+@import "require/_normalize.less";
+@import "require/_var.less";
+@import "require/_mixin.less";
+@import "require/_fonts.less";
+@import "require/_grid.less";
+@import "require/_keyframes.less";
+@import "require/_gradients.less";
+
+* {
+	margin: 0;
+	padding: 0;
+
+	box-sizing: border-box;
+
+	text-rendering: optimizeLegibility;
+	
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+html,
+body{
+	overflow: hidden;
+    background: @grey-light;
+}
+
+html {
+	font: 16.1px/1.3 @font;
+}
+
+a {
+	&:focus {
+		outline: none;
+	}
+}
+
+.current() {
+	color: @green;
+	
+	&:before {
+		background: @green;
+		transform: none;
+		transform-origin: left;
+	}
+}
+
+body {
+    &:not(.is-contact) {
+        user-select: none;
+    }
+
+    &.is-loaded {
+        cursor: s-resize;
+    }
+
+    > .logo {
+        .absolute();
+        .size(auto,auto);
+        pointer-events: none;
+        z-index: 1000;
+        
+        transition: opacity 1s linear;
+
+        // preloader state
+        transform: scale3d(.13,.13,.13);
+        will-change: transform;
+
+        &.hidden {
+            opacity: 0;
+        }
+        
+        &.rotate {
+            transform: scale3d(.13,.13,.13) rotate3d(0,0,1,-90deg);
+            transition: opacity 1s linear, transform 2.5s @easeOutExpo;
+        }
+
+        &.scaled {
+            transform: none;
+
+            canvas {
+                opacity: 1;
+            }
+
+            svg {
+                opacity: 0;
+            }
+        }
+
+        canvas {
+            .absolute();
+            display: block;
+            margin: auto;
+            height: 100vh;
+            opacity: 0;
+            transition: opacity 3s @easeOutExpo;
+        }
+        
+        svg {
+            display: block;
+            margin: auto;
+            height: 100vh;
+            transition: opacity 3s linear;
+
+            @media @mobile {
+                transform: translateX(-22%);
+            }
+            
+            use {
+                fill: white;
+            }
+        }
+    }
+
+    &.is-section {
+        > .logo svg use,
+        .name svg use,
+        .arrow svg path {
+            fill: @dark;
+            transition: all 1s @easeOutExpo;
+        }
+
+        .mobile-menu {
+            color: @dark;
+        }
+
+        .email {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .vs-scrollbar .vs-scrolldrag {
+            background: @dark;
+        }
+    }
+
+    &.is-contact {
+        .name svg use,
+        .arrow svg path {
+            fill: @dark;
+            transition: all 1s @easeOutExpo;
+        }
+
+        .mobile-menu {
+            color: @dark;
+        }
+
+        .email,
+        .arrow {
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+
+    &.has-menu-open {
+        .logo {
+            opacity: .2;
+        }
+
+        .email {
+            opacity: 1;
+        }
+    }
+}
+
+/* -----
+Nav
+----- */
+nav {
+	position: absolute;
+    z-index: 2;
+    top: 0; left: 0;
+    margin: @50px 0 0 @50px;
+    z-index: 1100;
+    transition: opacity 1s linear;
+
+    @media @mobile {
+        display: none;
+    }
+    
+    &.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    a,
+    span {
+    	font: @15px @font;
+    	margin: 0 @5px;
+        color: white;
+        cursor: pointer;
+        padding-bottom: 2px;
+    	transition: color .8s @easeOutExpo;
+    }
+
+    .is-home &,
+    .is-section & {
+        a[href="/diary"] {
+            &:after {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+        }
+    }
+
+    .is-about & {
+        a[href="/profile"] {
+            &:after {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+        }
+    }
+
+    .is-contact & {
+        a[href="/contact"] {
+            &:after {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+        }
+    }
+
+    .is-contact &,
+    .is-section & {
+        a,
+        span {
+            color: @dark;
+
+            &:after {
+                background-color: @dark;
+            }
+        }
+    }
+}
+
+/* -----
+Mobile menu
+----- */
+.mobile-menu {
+    display: none;
+    position: absolute;
+    font-size: @24px;
+    color: white;
+    top: 0; left: 0;
+    z-index: 30;
+    margin: @50px 0 0 @50px;
+
+    @media @mobile {
+        display: block;
+    }
+}
+
+.menu {
+    display: none;
+    .fixed();
+    background: #333333;
+    .hidden();
+    z-index: 25;
+
+    .vertical-el {
+        padding: 0 @40px;
+    }
+
+    .link {
+        display: block;
+        color: white;
+        font: @regular @65px/1.3 @font;
+
+        &:after {
+            display: none;
+        }
+    }
+
+    @media @mobile {
+        display: block;
+    }
+}
+
+/* -----
+Logo
+----- */
+.name {
+    position: absolute; bottom: 0; left: 0;
+    margin: 0 0 @50px @50px;
+    transition: opacity .9s linear;
+    z-index: 900;
+
+    @media @mobile {
+        top: 0; right: 0;
+        left: auto; bottom: auto;
+        margin: @50px @50px 0 0;
+    }
+
+    &.hidden {
+        opacity: 0;
+        pointer-events: none;
+
+        @media @mobile {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    }
+
+    svg {
+        width: 115px;
+        height: 25px;
+
+        use {
+            fill: white;
+        }
+    }
+}
+
+.email {
+    position: absolute; top: @45px; right: @45px;
+    color: white;
+    font-size: @15px;
+    transform: rotateZ(-90deg);
+    transform-origin: right;
+    z-index: 900;
+
+    @media @mobile {
+        opacity: 0;
+        display: block;
+        transform: none;
+        top: auto;
+        bottom: 0;
+        right: auto;
+        left: 0;
+        margin: 0 0 @40px @40px;
+    }
+
+    &.hidden {
+        opacity: 0;
+    }
+}
+
+/* -----
+Arrow
+----- */
+.arrow {
+    position: absolute; bottom: 0; right: 0;
+    margin: 0 @40px @40px 0;
+    transition: opacity .9s linear;
+    z-index: 900;
+
+    &.hidden {
+        opacity: 0;
+    }
+
+    &.rotate {
+        svg {
+            transform: rotateZ(180deg);
+        }
+    }
+
+    svg {
+        .size(40px,40px);
+        fill: white;
+        transition: fill 1s linear;
+        transition: transform .9s @easeOutExpo;
+    }
+
+    @media @mobile {
+        text-align: center;
+        left: 0;
+        margin: 0 auto 2.5rem auto;
+        opacity: 0;
+        pointer-events: none;
+
+        .is-loaded & {
+            opacity: 1;
+        }
+
+        svg {
+            .size(60px,60px);
+        }
+    }
+}
+
+/* -----
+Split text
+----- */
+.ui-split {
+    > div {
+        overflow: hidden;
+    }
+}
+
+/* -----
+Medias Queries
+----- */
+@import "require/_medias.less";
+
+/* -----
+Typography
+----- */
+@import "import/_typography.less";
+
+/* -----
+View
+----- */
+.page-view {
+	.fixed();
+	
+	.page {
+		.fixed();
+		.size(100%,100%);
+        display: none;
+
+        @media @mobile {
+            overflow-x: hidden;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+	}
+}
+
+.page-clip {
+	.absolute();
+}
+
+/* -----
+SVGs
+----- */
+.svg-defs {
+	display: none;
+}
+
+/* -----
+Utils
+----- */
+.vertical-center {
+	display: table;
+	position: relative;
+	.size(100%,100%);
+	
+	.vertical-el {
+		display: table-cell;
+		vertical-align: middle
+	}
+}
+
+/* -----
+Intrinsic
+----- */
+.intrinsic {
+	position: relative;
+	padding-bottom: 110%;
+	height: 0;
+	
+    &--portrait {
+        padding-bottom: 36%;
+    }
+
+    &--landscape {
+        padding-bottom: 20%;
+    }
+
+	&--16-9 {
+		padding-bottom: 56%;
+	}
+
+	.layer {
+		.absolute();
+	}
+
+	.el {
+		position: absolute;
+		top: 0; left: 0;
+		.size(100%,100%);
+		background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+	}
+}
+
+/* -----
+Smooth scrolling
+----- */
+.vs-section {
+	position: fixed; top: 0; left: 0; right: 0;
+	height: auto;
+}
+
+.vs-scrollbar {
+	position: absolute; top: 0; right: 0;
+	width: 3px;
+	height: 100%;
+
+	.vs-scrolldrag {
+		position: absolute;
+		width: 100%;
+		height: auto;
+		background: white;
+        transition: background .6s @easeOutExpo;
+	}
+}
+
+/* -----
+Cover Video
+----- */
+.video-cover {
+	display: block;
+	position: absolute;
+	left: 50%; top: 50%;
+	height: 100%; // width: 177.77777778vh;
+    min-width: 100vw; min-height: 56.25vw;
+    pointer-events: none;
+	transform: translate(-50%, -50%);
+}
+
+/* -----
+Preloader
+----- */
+@import "import/_preloader.less";
+
+/* -----
+Home
+----- */
+@import "import/_home.less";
+
+/* -----
+Contact
+----- */
+@import "import/_contact.less";
+
+/* -----
+About
+----- */
+@import "import/_about.less";
+
+/* -----
+Single
+----- */
+@import "import/_single.less";

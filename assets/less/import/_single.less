@@ -1,0 +1,118 @@
+.single {
+    .absolute();
+    background: white;
+
+    h1 {
+        font: @regular @16px/1.2 @font;
+        max-width: @100px;
+        margin-bottom: @25px;
+
+        @media @mobile {
+            font-size: @25px;
+            font-weight: @regular;
+            margin: -25vh auto 0;
+            max-width: 40%;
+            text-align: center;
+        }
+    }
+
+    .share {
+        margin-left: @100px;
+
+        @media @mobile {
+            display: none;
+        }
+
+        span {
+            display: block;
+        }
+
+        a {
+            margin-right: @5px;
+
+            &:after {
+                background-color: @dark;
+            }
+        }
+    }
+
+    .back {
+        position: absolute; top: 0; right: 0;
+        margin: @50px @50px 0 0;
+        z-index: 2;
+
+        @media @mobile {
+            display: none;
+        }
+
+        &:after {
+            background-color: @dark;
+        }
+    }
+
+    .section {
+        position: absolute; top: 0; left: 0;
+        width: 100%;
+        background: white;
+        
+        @media @mobile {
+            padding: @40px;
+        }
+        
+        .vertical-center {
+            position: absolute; top: 0; left: 0;
+            height: 100vh;
+        }
+    }
+    
+    .intrinsic {
+        background: #d9d9d9;
+        overflow: hidden;
+        
+        .el {
+            transform: scale(1.3);
+            opacity: 0;
+        }
+
+        &--landscape {
+            padding-bottom: 70%;
+        }
+    }
+    
+    .image {
+        &__right {
+            width: 50%;
+            margin: 0 0 0 auto;
+
+            &.margin-top {
+                margin-top: 25vh;
+            }
+
+            @media @mobile {
+                width: 100%;
+
+                &.margin-top {
+                    margin-top: 75vh;
+                }
+            }
+        }
+        
+        &__left {
+            width: 25%;
+            margin-left: 16%;
+
+            @media @mobile {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
+        @media @mobile {
+            margin-bottom: @40px;
+        }
+
+        .intrinsic--portrait {
+            padding-bottom: 150%;
+        }
+    }
+}

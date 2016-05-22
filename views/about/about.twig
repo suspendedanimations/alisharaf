@@ -1,0 +1,42 @@
+{% extends "_base.twig" %}
+
+{% block content %}
+    {% if not isAJAX %}<section id="page-profile" class="page page-profile is-hidden">{% endif %}
+    <div class="vertical-center">
+        <div class="vertical-el">
+            <div class="intrinsic intrinsic--portrait ui-image">
+                <div class="el" style="background-image: url('{{ TimberImage(post.get_field('image')) }}');"></div>
+            </div>
+            {% set max = post.get_field('paragraphs')|length + 1 %}
+            {% for row in post.get_field('paragraphs') %}
+            <div class="p">
+                <div class="vertical-center">
+                    <div class="vertical-el">
+                        <span class="index ui-index">{{ loop.index }}/{{ loop.length + 1 }}</span>
+                        {{ row.paragraph }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="p">
+                <div class="vertical-center">
+                    <div class="vertical-el">
+                        <span class="index">{{ max }}/{{ max }}</span>
+                        <p>
+                            <span>Books:</span><br>
+                        {% for book in post.get_field('books') %}
+                            <span>{{ book.date }} — {{ book.title }}</span>
+                        {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mobile-p">
+    {% for row in post.get_field('paragraphs') %}
+        {{ row.paragraph }}
+    {% endfor %}
+    </div>
+    {% if not isAJAX %}</section>{% endif %}
+{% endblock %}
