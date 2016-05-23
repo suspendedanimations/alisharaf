@@ -1,6 +1,6 @@
-import framework from '../framework'
-import config from '../config'
-import utils from '../utils'
+import framework from 'framework'
+import config from 'config'
+import utils from 'utils'
 import classes from 'dom-classes'
 import query from 'query-dom-components'
 import _ from 'underscore'
@@ -16,7 +16,7 @@ class Default {
         
         this.view = config.$view
         this.page = null
-
+        
         this.debouncedResize = _.debounce(this.debounce.bind(this), 300)
     }
     

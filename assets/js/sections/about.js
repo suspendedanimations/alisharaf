@@ -3,8 +3,8 @@ import utils from 'utils'
 import classes from 'dom-classes'
 import event from 'dom-events'
 import Default from './default'
-import Pixi from '../components/pixi'
 import Manager from 'slider-manager'
+import Jello from '../lib/jello'
 import {on, off} from 'dom-events'
 
 class About extends Default {
@@ -37,6 +37,16 @@ class About extends Default {
         this.ui.index = utils.js.arrayFrom(this.ui.index)
         this.paragraphs = utils.js.arrayFrom(this.page.querySelectorAll('.p p'))
         
+        config.$arrow.style.cursor = 'pointer'
+        on(config.$arrow, 'click', this.goNext)
+
+        this.addSplit()
+        this.addJello()
+        this.addSlider()
+    }
+
+    addSplit() {
+
         this.splits = []
 
         this.paragraphs.forEach((el) => {
@@ -44,9 +54,9 @@ class About extends Default {
             const split = new SplitText(el, { type: 'lines, words' })
             this.splits.push(split)
         })
-        
-        config.$arrow.style.cursor = 'pointer'
-        on(config.$arrow, 'click', this.goNext)
+    }
+
+    addSlider() {
 
         this.slider = new Manager({
             length: this.paragraphs.length,
@@ -55,8 +65,35 @@ class About extends Default {
         })
 
         this.slider.init()
+        this.slider.animating = true
 
-        TweenMax.delayedCall(1, _ => this.slider.goTo(1))
+        TweenMax.delayedCall(1.5, _ => {
+
+            this.slider.animating = false
+            this.slider.goTo(1)
+        })
+    }
+    
+    addJello() {
+
+        const hasRetina = utils.hardware.hasRetina()
+        const images = []
+
+        APP.ABOUT.forEach((el) => {
+
+            const image = hasRetina ? el.image.sizes.large : el.image.sizes.medium_large
+            const width = hasRetina ? el.image.sizes['large-width'] : el.image.sizes['medium_large-width']
+            const height = hasRetina ? el.image.sizes['large-height'] : el.image.sizes['medium_large-height']
+            const obj = { image: image, width: width, height: height }
+            images.push(obj)
+        })
+        
+        this.jello = new Jello({
+            container: this.ui.image,
+            images: images
+        })
+
+        this.jello.init()
     }
 
     onScroll(event) {
@@ -66,13 +103,14 @@ class About extends Default {
         const index = event.current
         const previous = event.previous
         const down = event.direction === 'downwards'
+
+        this.jello.isTransitioning = true
         
         this.slider.animating = true
         index == this.paragraphs.length ? classes.add(config.$arrow, 'rotate') : classes.remove(config.$arrow, 'rotate')
         
         const stagger = index == 1 ? 'staggerFrom' : 'staggerTo'
         const inverse = index == 0 ? 1 : 0
-        const currentindex = document.querySelector('.is-current-index')
 
         this.ui.index.forEach((el, loop) => {
             classes.remove(el, 'is-current-index')
@@ -81,18 +119,35 @@ class About extends Default {
 
         const tl = new TimelineMax({ paused: true, onComplete: _ => {
             
+            this.jello.isTransitioning = false
             this.splits[previous-1] && tl.set(this.splits[previous-1].words, { clearProps: 'opacity, visibility, transform' })
             this.slider.animating = false
         }})
 
         tl.set(config.$logo, { opacity: inverse }, inverse)
-        tl.staggerTo(this.paragraphs, 1, { cycle: { opacity: (i) => index === 0 ? 0 : i === index-1 ? 1 : 0, delay: (i) => index === 0 ? 1 : i === index-1 ? 0 : 1 }}, 0, 0)
+        tl.staggerTo(this.paragraphs, 1, { cycle: { opacity: (i) => index === 0 ? 0 : i === index-1 ? 1 : 0, delay: (i) => index === 0 ? .6 : i === index-1 ? 0 : .6 }}, 0, 0)
         
-        this.splits[previous-1] && tl.staggerTo(this.splits[previous-1].words, .9, { autoAlpha: 0, y: '100%', cycle: { scale: [.8, 1], rotationY: ['-20deg', '20deg'], skewX: ['-15deg', '15deg'] }, ease: Expo.easeInOut }, -.6 / this.splits[previous-1].words.length, 0)
-        this.splits[index-1] && tl.staggerFrom(this.splits[index-1].words, .9, { autoAlpha: 0, y: '100%', cycle: { scale: [.8, 1.1], rotationY: ['-20deg', '20deg'], skewX: ['-10deg', '10deg'] }, ease: Expo.easeInOut }, .8 / this.splits[index-1].words.length, this.splits[previous-1] ? 1 : 0)
+        this.splits[previous-1] && tl.staggerTo(this.splits[previous-1].words, .9, { autoAlpha: 0, y: '-100%', cycle: { scale: [.8, 1], rotationY: ['-5deg', '5deg'], skewX: ['-5deg', '5deg'] }, ease: Expo.easeInOut }, -.6 / this.splits[previous-1].words.length, 0)
+        this.splits[index-1] && tl.staggerFrom(this.splits[index-1].words, .9, { autoAlpha: 0, y: '100%', cycle: { scale: [.8, 1.1], rotationY: ['-15deg', '15deg'], skewX: ['-10deg', '10deg'] }, ease: Expo.easeInOut }, .8 / this.splits[index-1].words.length, this.splits[previous-1] ? .6 : 0)
         
-        // tl.to(this.page.querySelector('.books'), 1, { autoAlpha: index === this.slider.length ? 1 : 0 }, index === this.slider.length ? 2.5 : 0)
         tl.to(this.page.querySelector('.intrinsic'), 1, { autoAlpha: index == 0 ? 1 : .6, ease: Expo.easeInOut }, 0)
+        
+        tl.to(this.jello.settings, 1, {
+            transition: 1,
+            speed: .5,
+            dispScale: 25,
+            ease: Expo.easeInOut
+        }, 0)
+        
+        tl.add(() => this.jello.changeImage(), .5)
+
+        tl.to(this.jello.settings, .8, {
+            transition: 0,
+            speed: 0,
+            dispScale: 0,
+            ease: Expo.easeOut
+        }, .6)
+
         tl.restart()
     }
 
@@ -108,7 +163,8 @@ class About extends Default {
         config.$arrow.style.cursor = ''
         off(config.$arrow, 'click', this.goNext)
 
-        this.slider.destroy()
+        this.jello && this.jello.destroy()
+        this.slider && this.slider.destroy()
     }
     
     animateIn(req, done) {
@@ -140,6 +196,8 @@ class About extends Default {
     resize(width, height) {
 
         super.resize(width, height)
+
+        this.jello && this.jello.resize()
     }
     
     destroy(req, done) {

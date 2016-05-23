@@ -4,11 +4,8 @@ import utils from 'utils'
 import create from 'dom-create-element'
 import classes from 'dom-classes'
 import Default from './default'
-import {on, off} from 'dom-events'
-import $ from 'dom-select'
-import Pixi from '../components/pixi'
-import Manager from 'slider-manager'
 import Smooth from '../lib/smooth/diary'
+import {on, off} from 'dom-events'
 
 class Home extends Default {
 	
@@ -52,6 +49,7 @@ class Home extends Default {
 		const image = config.$logo.getAttribute('data-mask')
 		
 		this.els = utils.js.arrayFrom(this.page.querySelectorAll('.section a'))
+		this.lazyload = utils.js.arrayFrom(this.page.querySelectorAll('.el .el'))
 
 		on(this.ui.all, 'click', this.animateInAll)
 		on(this.ui.close, 'click', this.animateOutAll)
@@ -59,12 +57,32 @@ class Home extends Default {
 		this.els.forEach((el) => on(el, 'mouseenter', this.changeZIndex))
 		this.els.forEach((el) => on(el, 'mouseleave', this.changeZIndex))
 		this.links.forEach((el) => on(el, 'mouseenter', this.changeMask))
+
+		this.lazyLoad()
 		
 		this.initSmooth()
 		this.smooth.vs.off(this.smooth.calc)
 		
 		this.createCanvas()
 		this.createMask(image)
+	}
+
+	lazyLoad() {
+
+		this.lazyload.forEach((el) => {
+
+			const img = document.createElement('img')
+			const image = el.getAttribute('data-src')
+			
+			img.onload = () => {
+				
+				el.style['background-image'] = `url('${image}')`
+				
+				requestAnimationFrame(() => el.opacity = 1)
+			}
+
+			img.src = image
+		})
 	}
 	
 	initSmooth() {
@@ -158,15 +176,15 @@ class Home extends Default {
 		if(this.all) return
 
 		this.all = true
-
+		
 		classes.remove(this.page, 'has-hover')
 		classes.add(this.ui.all, 'is-hidden')
 		classes.add(config.$logo, 'scaled')
-
+		
 		const tl = new TimelineMax({ paused: true, onComplete: () => {
 			this.smooth && this.smooth.off()
 		}})
-		tl.staggerTo(this.page.querySelectorAll('.el .el'), 1.1, { cycle: { x: (index) => (index & 1) ? config.width/3 : -config.width/3 }, ease: Expo.easeOut, autoAlpha: 0 }, 0, 0)
+		tl.staggerTo(this.lazyload, 1.1, { cycle: { x: (index) => (index & 1) ? config.width/3 : -config.width/3 }, autoAlpha: 0, ease: Expo.easeOut }, 0, 0)
   		tl.to(config.$body.querySelector('.project-list'), 1, { autoAlpha: 1 }, 1)
   		tl.staggerFrom(config.$body.querySelectorAll('.project-list a'), 1.5, { cycle: {
   			skewX: (index) => (index & 1) ? '-5deg' : '5deg',
@@ -191,7 +209,7 @@ class Home extends Default {
 			this.all = false
 			typeof onComplete === 'function' && onComplete()
 		}})
-  		tl.staggerTo(this.page.querySelectorAll('.el .el'), 1.1, { x: 0, autoAlpha: 1, ease: Expo.easeOut }, .02, 0)
+  		tl.staggerTo(this.lazyload, 1.1, { x: 0, autoAlpha: 1, ease: Expo.easeOut }, .02, 0)
   		tl.to(config.$body.querySelector('.project-list'), .6, { autoAlpha: 0, ease: Expo.easeOut }, 0)
   		tl.restart()
 	}
@@ -210,7 +228,7 @@ class Home extends Default {
 			done()
 		}})
   		tl.from(this.page, 2.8, { autoAlpha: 0, scale: 1.2, ease: Expo.easeInOut }, 0)
-  		tl.staggerTo(this.page.querySelectorAll('.el .el'), 1, { autoAlpha: 1, ease: Expo.easeOut }, .08, 0)
+  		tl.staggerTo(this.lazyload, 1, { autoAlpha: 1, ease: Expo.easeOut }, .08, 0)
   		
   		!config.isMobile && tl.add(() => this.smooth.vs.on(this.smooth.calc), 1)
 
@@ -230,7 +248,7 @@ class Home extends Default {
 			!config.isMobile && this.removeEvents()
 
 			const tl = new TimelineMax({ paused: true, onComplete: done })
-	  		tl.staggerTo(this.page.querySelectorAll('.el .el'), 3, { autoAlpha: 0, ease: Expo.easeInOut }, .08, 0)
+	  		tl.staggerTo(this.lazyload, 3, { autoAlpha: 0, ease: Expo.easeInOut }, .08, 0)
 	  		tl.to(this.page, 1.3, { y: '100%', ease: Expo.easeInOut }, 0)
 	  		tl.restart()
 		}

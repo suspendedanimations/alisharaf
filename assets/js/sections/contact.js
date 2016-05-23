@@ -3,7 +3,6 @@ import utils from 'utils'
 import classes from 'dom-classes'
 import event from 'dom-events'
 import Default from './default'
-import Pixi from '../components/pixi'
 import Manager from 'slider-manager'
 
 class Contact extends Default {
