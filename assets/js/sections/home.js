@@ -39,6 +39,9 @@ class Home extends Default {
 		super.dataAdded()
 		
 		this.ui.close = config.$body.querySelector('.list-close')
+		
+		this.lazyLoad()
+
 		!config.isMobile && this.addEvents()
 		
 		done()
@@ -49,7 +52,6 @@ class Home extends Default {
 		const image = config.$logo.getAttribute('data-mask')
 		
 		this.els = utils.js.arrayFrom(this.page.querySelectorAll('.section a'))
-		this.lazyload = utils.js.arrayFrom(this.page.querySelectorAll('.el .el'))
 
 		on(this.ui.all, 'click', this.animateInAll)
 		on(this.ui.close, 'click', this.animateOutAll)
@@ -57,8 +59,6 @@ class Home extends Default {
 		this.els.forEach((el) => on(el, 'mouseenter', this.changeZIndex))
 		this.els.forEach((el) => on(el, 'mouseleave', this.changeZIndex))
 		this.links.forEach((el) => on(el, 'mouseenter', this.changeMask))
-
-		this.lazyLoad()
 		
 		this.initSmooth()
 		this.smooth.vs.off(this.smooth.calc)
@@ -69,6 +69,8 @@ class Home extends Default {
 
 	lazyLoad() {
 
+		this.lazyload = utils.js.arrayFrom(this.page.querySelectorAll('.el .el'))
+		
 		this.lazyload.forEach((el) => {
 
 			const img = document.createElement('img')

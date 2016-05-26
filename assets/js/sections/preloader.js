@@ -23,6 +23,9 @@ class Preloader {
         const template = `<div class="background" style="background-image: url('${image}')"></div>`
         const page = this.view.firstChild
         
+        const app = new Biggie()
+        app.init()
+
         this.el = create({
             selector: 'div',
             styles: 'preloader',
@@ -30,9 +33,6 @@ class Preloader {
         })
         
         this.view.insertBefore(this.el, page)
-        
-        const app = new Biggie()
-        app.init()
         
         preload.onload = done
         preload.src = image
@@ -61,7 +61,9 @@ class Preloader {
         if(this.called) return
 
         this.called = true
-
+        
+        // TweenMax.set(config.$logo, { opacity: .95, 'will-change': 'transform, opacity' }, 1)
+        
         classes.add(config.$logo, 'rotate')
 
         classes.remove(config.$body, 'is-loaded')
@@ -96,6 +98,8 @@ class Preloader {
     
     animateOut(req, done) {
 
+        classes.remove(config.$html, 'is-preloader')
+        
         done()
     }
     

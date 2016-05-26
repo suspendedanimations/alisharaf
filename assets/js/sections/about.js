@@ -111,7 +111,7 @@ class About extends Default {
         
         const stagger = index == 1 ? 'staggerFrom' : 'staggerTo'
         const inverse = index == 0 ? 1 : 0
-
+        
         this.ui.index.forEach((el, loop) => {
             classes.remove(el, 'is-current-index')
             loop == index-1 && classes.add(el, 'is-current-index')
@@ -123,8 +123,8 @@ class About extends Default {
             this.splits[previous-1] && tl.set(this.splits[previous-1].words, { clearProps: 'opacity, visibility, transform' })
             this.slider.animating = false
         }})
-
-        tl.set(config.$logo, { opacity: inverse }, inverse)
+        
+        tl.set(config.$logo, { opacity: inverse }, index == 0 ? .6 : 0)
         tl.staggerTo(this.paragraphs, 1, { cycle: { opacity: (i) => index === 0 ? 0 : i === index-1 ? 1 : 0, delay: (i) => index === 0 ? .6 : i === index-1 ? 0 : .6 }}, 0, 0)
         
         this.splits[previous-1] && tl.staggerTo(this.splits[previous-1].words, .9, { autoAlpha: 0, y: '-100%', cycle: { scale: [.8, 1], rotationY: ['-5deg', '5deg'], skewX: ['-5deg', '5deg'] }, ease: Expo.easeInOut }, -.6 / this.splits[previous-1].words.length, 0)
@@ -132,21 +132,21 @@ class About extends Default {
         
         tl.to(this.page.querySelector('.intrinsic'), 1, { autoAlpha: index == 0 ? 1 : .6, ease: Expo.easeInOut }, 0)
         
-        tl.to(this.jello.settings, 1, {
+        tl.to(this.jello.settings, 1.8, {
             transition: 1,
-            speed: .5,
-            dispScale: 25,
+            speed: .3,
+            dispScale: 80,
             ease: Expo.easeInOut
         }, 0)
         
-        tl.add(() => this.jello.changeImage(), .5)
-
-        tl.to(this.jello.settings, .8, {
+        tl.add(() => this.jello.changeImage(), 1)
+        
+        tl.to(this.jello.settings, 1.8, {
             transition: 0,
             speed: 0,
             dispScale: 0,
             ease: Expo.easeOut
-        }, .6)
+        }, 1.8)
 
         tl.restart()
     }

@@ -12,6 +12,7 @@ const config = {
 		home: '/diary'
 	},
 	
+	$html: document.documentElement,
 	$body: document.body,
 	$view: domselect('#js-view'),
 	$logo: domselect('.logo'),

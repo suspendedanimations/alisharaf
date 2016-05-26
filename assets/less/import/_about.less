@@ -32,10 +32,10 @@
         }
         
         p {
-            font: @regular @35px/1.3 @font;
+            font: @regular @30px/1.3 @font;
             color: white;
             opacity: 0;
-
+            
             @media @mobile {
                 font-size: @18px;
                 opacity: 1;
@@ -50,7 +50,7 @@
     .jello-canvas {
         .absolute();
         .size(100%,100%);
-        transform: translateX(-35%);
+        // transform: translateX(-35%);
     }
     
     .intrinsic {
@@ -59,12 +59,12 @@
         margin: auto;
         transform: scale(.9);
         .hidden();
-
-        @media @mobile {
-            width: 55%;
-            padding-bottom: 100%;
-            opacity: .2;
-        }
+        
+        // @media @mobile {
+        //     width: 55%;
+        //     padding-bottom: 100%;
+        //     opacity: .2;
+        // }
     }
 
     .vertical-center {

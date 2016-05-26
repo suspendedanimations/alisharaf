@@ -108,7 +108,7 @@ const utils = {
 
 			ajax.get(`/${slug}`, {
 				success: (object) => {
-					
+									
 					const title = object.data.split(/(<title>|<\/title>)/ig)[2]
 					const inner = object.data.split(/(<body>|<\/body>)/ig)[2]
 					page.innerHTML = inner

@@ -9,13 +9,13 @@ export default class Jello {
         this.options = options
         this.container = options.container
 
-        this.imgWidth = 1920
-        this.imgHeight = 960
+        this.imgWidth = options.images[0].width
+        this.imgHeight = options.images[0].height
         this.imgRatio = this.imgHeight / this.imgWidth
         this.winWidth = config.width
         
-        this.bgArray = options.images || ['image-1','image-2']
-        this.bgSpriteArray = [];
+        this.bgArray = options.images
+        this.bgSpriteArray = []
 
         this.renderer = PIXI.autoDetectRenderer(this.winWidth, (this.winWidth * this.imgRatio))
         this.stage = new PIXI.Container()
@@ -31,7 +31,7 @@ export default class Jello {
             { image: `${APP.THEME_URL}/assets/images/displacement-4.jpg`, speed: 1.5, scale: 250 }
         ]
 
-        this.rAF = null
+        this.rAF = undefined
         this.requestAnimationFrame = this.requestAnimationFrame.bind(this)
 
         this.isDistorted = true
@@ -43,21 +43,21 @@ export default class Jello {
         this.defaults = {
             transition: 1,
             speed: 1,
-            dispScale: 0,
+            dispScale: 15,
             dispX: true,
             dispY: true,
             count: 0
         }
 
         this.update()
-        this.backgroundFill()
+        // this.backgroundFill()
         this.buildStage()
         this.createBackgrounds()
         // this.createMask()
         this.createFilters()
 
         // this.imgContainer.mask = this.mask
-
+        
         this.requestAnimationFrame()
 
         this.renderer.view.setAttribute('class', 'jello-canvas')
@@ -77,7 +77,7 @@ export default class Jello {
         this.settings.count += 0.05 * this.settings.speed
 
         this.renderer.render(this.stage)
-
+        
         this.rAF = requestAnimationFrame(this.requestAnimationFrame)
     }
 
@@ -85,13 +85,13 @@ export default class Jello {
 
         this.renderer.view.setAttribute('style', 'height:auto;width:100%;');
     }
-
+    
     buildStage() {
 
         this.imgContainer.position.x = this.imgWidth / 2
         this.imgContainer.position.y = this.imgHeight / 2
 
-        this.stage.scale.x = this.stage.scale.y = this.winWidth / this.imgWidth
+        this.stage.scale.x = this.stage.scale.y = this.winWidth / this.imgWidth;
         this.stage.interactive = true
         this.stage.addChild(this.imgContainer)
     }
@@ -103,7 +103,7 @@ export default class Jello {
         } else {
             this.counter.image = 0
         }
-
+        
         this.bgSpriteArray.map((sprite, i) => TweenLite.to(sprite, 1, { alpha: i == this.counter.image ? 1 : 0, ease: Expo.easeOut }))
     }
 
@@ -116,8 +116,6 @@ export default class Jello {
         }
 
         this.currentMap = this.mapArray[this.counter.map]
-        console.log(this.currentMap)
-
         this.displacementSprite = PIXI.Sprite.fromImage(`${this.currentMap.image}`)
         this.displacementFilter = new PIXI.filters.DisplacementFilter(this.displacementSprite)
         
@@ -143,15 +141,18 @@ export default class Jello {
 
             const bg = PIXI.Sprite.fromImage(el.image)
 
-            // Set image anchor to the center of the image
-            bg.anchor.x = 0.5
-            bg.anchor.y = 0.5
+            bg.texture.baseTexture.on('loaded', () => {
 
-            this.imgContainer.addChild(bg)
-            this.bgSpriteArray.push(bg)
+                // Set image anchor to the center of the image
+                bg.anchor.x = 0.5
+                bg.anchor.y = 0.5
 
-            // set first image alpha to 1, all else to 0
-            bg.alpha = this.bgSpriteArray.length === 1 ? 1 : 0
+                this.imgContainer.addChild(bg)
+                this.bgSpriteArray.push(bg)
+                
+                // set first image alpha to 1, all else to 0
+                bg.alpha = this.bgSpriteArray.length === 1 ? 1 : 0
+            })
         })
     }
 
@@ -211,15 +212,11 @@ export default class Jello {
         this.settings = Object.assign({}, this.defaults, this.options);
     }
 
-    resize() {
-
-        this.renderer.view.style.width = config.width * .75 + 'px'
-        this.renderer.view.style.height = config.height * .75 + 'px'
-    }
+    resize() {}
 
     destroy() {
         
-        cancelAnimationFrame(this.requestAnimationFrame)
+        cancelAnimationFrame(this.rAF)
         this.settings = {}
         this.bgArray = []
         this.bgSpriteArray = []

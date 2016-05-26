@@ -8,7 +8,6 @@ TweenLite.defaultEase = Expo.easeOut
 
 config.isMobile = config.width < 768
 config.hasBlendMode && classes.add(config.$body, 'has-blend-mode')
-config.isMobile && event.on(config.$body, 'touchmove', (e) => e.preventDefault())
 
 require('fastclick')(document.body)
 
