@@ -208,7 +208,7 @@ export default class Jello {
     }
 
     update() {
-
+        
         this.settings = Object.assign({}, this.defaults, this.options);
     }
 

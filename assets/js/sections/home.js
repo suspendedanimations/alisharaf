@@ -119,6 +119,11 @@ class Home extends Default {
 		config.$logo.appendChild(canvas)
 	}
 
+	removeMask() {
+
+		config.$logo.removeChild(this.canvas)
+	}
+
 	createMask(image) {
 
 		const mask = document.createElement('img')
@@ -277,6 +282,8 @@ class Home extends Default {
 	destroy(req, done) {
 
 		super.destroy()
+		
+		this.removeMask()
 		
 		this.page.parentNode.removeChild(this.page)
 		
