@@ -53,7 +53,7 @@ class Section extends Default {
         !previous && classes.add(config.$body, `is-${this.slug}`)
 
         const tl = new TimelineMax({ paused: true, onComplete: done })
-        tl.from(this.page, .6, { autoAlpha: 0, ease: Expo.easeInOut }, home ? 3 : 0)
+        tl.from(this.page, 1.2, { autoAlpha: 0, y: '-15%', ease: Expo.easeInOut }, home ? 3 : 0)
         tl.staggerTo(this.page.querySelectorAll('.intrinsic .el'), 3.5, { opacity: 1, scale: 1 }, 1, .8)
         previous && tl.add(_ => classes.add(config.$body, `is-${this.slug}`), .8)
         tl.restart()

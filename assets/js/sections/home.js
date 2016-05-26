@@ -234,7 +234,7 @@ class Home extends Default {
 			classes.add(this.page, 'has-hover')
 			done()
 		}})
-  		tl.from(this.page, 2.8, { autoAlpha: 0, scale: 1.2, ease: Expo.easeInOut }, 0)
+  		tl.from(this.page, 1.1, { autoAlpha: 0, scale: 1.2, ease: Power2.easeInOut }, 0)
   		tl.staggerTo(this.lazyload, 1, { autoAlpha: 1, ease: Expo.easeOut }, .08, 0)
   		
   		!config.isMobile && tl.add(() => this.smooth.vs.on(this.smooth.calc), 1)

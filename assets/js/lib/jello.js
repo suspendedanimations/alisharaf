@@ -43,7 +43,7 @@ export default class Jello {
         this.defaults = {
             transition: 1,
             speed: 1,
-            dispScale: 15,
+            dispScale: 40,
             dispX: true,
             dispY: true,
             count: 0
@@ -104,9 +104,9 @@ export default class Jello {
             this.counter.image = 0
         }
         
-        this.bgSpriteArray.map((sprite, i) => TweenLite.to(sprite, 1, { alpha: i == this.counter.image ? 1 : 0, ease: Expo.easeOut }))
+        this.bgSpriteArray.map((sprite, i) => TweenLite.to(sprite, 1.1, { alpha: i == this.counter.image ? 1 : 0, ease: Linear.easeNone }))
     }
-
+    
     changeMap() {
 
         if(this.counter.map < (this.mapArray.length - 1)) {
@@ -114,7 +114,7 @@ export default class Jello {
         } else {
             this.counter.map = 0
         }
-
+        
         this.currentMap = this.mapArray[this.counter.map]
         this.displacementSprite = PIXI.Sprite.fromImage(`${this.currentMap.image}`)
         this.displacementFilter = new PIXI.filters.DisplacementFilter(this.displacementSprite)

@@ -65,7 +65,7 @@ class Preloader {
         // TweenMax.set(config.$logo, { opacity: .95, 'will-change': 'transform, opacity' }, 1)
         
         classes.add(config.$logo, 'rotate')
-
+        
         classes.remove(config.$body, 'is-loaded')
         classes.remove(config.$bar, 'hidden')
         classes.remove(config.$body.querySelector('.email'), 'hidden')

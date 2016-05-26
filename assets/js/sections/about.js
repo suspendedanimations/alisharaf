@@ -132,22 +132,22 @@ class About extends Default {
         
         tl.to(this.page.querySelector('.intrinsic'), 1, { autoAlpha: index == 0 ? 1 : .6, ease: Expo.easeInOut }, 0)
         
-        tl.to(this.jello.settings, 1.8, {
+        tl.to(this.jello.settings, .6, {
             transition: 1,
-            speed: .3,
-            dispScale: 80,
-            ease: Expo.easeInOut
+            speed: .6,
+            dispScale: 40,
+            ease: Power2.easeOut
         }, 0)
         
-        tl.add(() => this.jello.changeImage(), 1)
+        tl.add(() => this.jello.changeImage(), .35)
         
-        tl.to(this.jello.settings, 1.8, {
+        tl.to(this.jello.settings, .6, {
             transition: 0,
             speed: 0,
             dispScale: 0,
-            ease: Expo.easeOut
-        }, 1.8)
-
+            ease: Linear.easeNone
+        }, 1)
+        
         tl.restart()
     }
 

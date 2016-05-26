@@ -7,7 +7,7 @@ Preloader
 
 .preloader {
     .absolute();
-    transition: opacity 1s @easeOutExpo;
+    transition: opacity .8s linear;
     opacity: 0;
     
     .background {
@@ -16,6 +16,6 @@ Preloader
         background-size: cover;
         background-repeat: no-repeat;
         transform: scale(1.2);
-        transition: opacity 1.5s @easeOutExpo, transform 2.6s @easeOutExpo;
+        transition: opacity .8s linear, transform 2.6s @easeOutExpo;
     }
 }
