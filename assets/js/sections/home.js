@@ -211,13 +211,12 @@ class Home extends Default {
 
 		const tl = new TimelineMax({ paused: true, onComplete: () => {
 
-			console.log(typeof onComplete, onComplete)
 			classes.add(this.page, 'has-hover')
 			this.all = false
 			typeof onComplete === 'function' && onComplete()
 		}})
   		tl.staggerTo(this.lazyload, 1.1, { x: 0, autoAlpha: 1, ease: Expo.easeOut }, .02, 0)
-  		tl.to(config.$body.querySelector('.project-list'), .6, { autoAlpha: 0, ease: Expo.easeOut }, 0)
+  		tl.to(config.$body.querySelector('.project-list'), .6, { autoAlpha: 0, clearProps: 'all', ease: Expo.easeOut }, 0)
   		tl.restart()
 	}
 
@@ -271,11 +270,11 @@ class Home extends Default {
 	debounce() {
 
 		super.debounce()
-
+		
 		if(config.isMobile) {
             this.smooth && (this.smooth.destroy(), this.smooth = null)
         } else {
-            !this.smooth && (this.initSmooth(), console.log(this.smooth))
+            !this.smooth && this.initSmooth()
         }
 	}
 

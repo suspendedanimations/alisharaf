@@ -99,7 +99,7 @@ class About extends Default {
     onScroll(event) {
 
         if(config.isMobile) return
-
+        
         const index = event.current
         const previous = event.previous
         const down = event.direction === 'downwards'
