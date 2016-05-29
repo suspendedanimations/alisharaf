@@ -6,26 +6,19 @@ import _ from 'underscore'
 
 class Diary extends Smooth {
 
-    constructor(opt = {}) {
+    constructor(opt) {
 
         super(opt)
-        
-        this.createExtraBound()
-        
+                
         this.dom.left = utils.js.arrayFrom(opt.left)
         this.dom.right = utils.js.arrayFrom(opt.right)
         this.length = this.dom.left.length + this.dom.right.length
         
         this.autoScroll = true
         this.resizing = false
+        this.idle = true
         this.cache = null
         this.debounce = _.debounce(this.debounce.bind(this), 50)
-    }
-    
-    createExtraBound() {
-        
-        // ['getCache', 'inViewport']
-        // .forEach((fn) => this[fn] = this[fn].bind(this))
     }
     
     resize() {
@@ -47,11 +40,17 @@ class Diary extends Smooth {
         this.resizing = false
     }
 
+    calc(e) {
+
+        super.calc(e)
+        this.idle = e.deltaY === 0
+    }
+    
     run() {
 
         super.run()
 
-        if(this.autoScroll && this.vars.target < this.vars.bounding)
+        if(this.autoScroll && this.idle && this.vars.target < this.vars.bounding)
             this.vars.target += .6
             
         this.dom.left.forEach((el, index) => el.style[config.prefix.transform] = `translate3d(-30%,${(config.height*index) - this.vars.current}px,0)`)

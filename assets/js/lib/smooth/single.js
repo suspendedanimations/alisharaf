@@ -5,7 +5,7 @@ import classes from 'dom-classes'
 
 class Custom extends Smooth {
     
-    constructor(opt = {}) {
+    constructor(opt) {
 
         super(opt)
 

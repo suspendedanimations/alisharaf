@@ -21,7 +21,7 @@ class Home extends Default {
 		this.state = {
 			current: 1
 		}
-
+		
 		this.animateInAll = this.animateInAll.bind(this)
 		this.animateOutAll = this.animateOutAll.bind(this)
 		this.changeMask = this.changeMask.bind(this)
