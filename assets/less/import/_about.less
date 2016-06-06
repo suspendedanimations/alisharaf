@@ -61,10 +61,18 @@
         padding-bottom: 30%;
         .hidden();
         
+        .el {
+            display: none;
+        }
+        
         @media @mobile {
             width: 55%;
             padding-bottom: 100%;
             opacity: .2;
+
+            .el {
+                display: block;
+            }
         }
     }
 

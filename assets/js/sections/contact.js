@@ -38,8 +38,7 @@ class Contact extends Default {
     }
     
     animateIn(req, done) {
-
-        classes.remove(config.$body, 'is-loading')
+        
         classes.add(config.$body, `is-${this.slug}`)
         
         const tl = new TimelineMax({ paused: true, onComplete: done })
@@ -50,8 +49,7 @@ class Contact extends Default {
     }
 
     animateOut(req, done) {
-        
-        classes.add(config.$body, 'is-loading')
+
         classes.remove(config.$body, `is-${this.slug}`)
         
         const tl = new TimelineMax({ paused: true, onComplete: done })

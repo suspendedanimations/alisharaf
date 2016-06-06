@@ -46,9 +46,7 @@ class Section extends Default {
     }
     
     animateIn(req, done) {
-        
-        classes.remove(config.$body, 'is-loading')
-        
+                
         const previous = req.previous && req.previous.route
         const home = req.previous && req.previous.route === (config.routes.default || config.routes.home)
         
@@ -62,8 +60,7 @@ class Section extends Default {
     }
     
 	animateOut(req, done) {
-
-        classes.add(config.$body, 'is-loading')
+        
         classes.remove(config.$body, `is-${this.slug}`)
 
         this.page.style.zIndex = '10'

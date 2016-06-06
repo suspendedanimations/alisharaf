@@ -176,7 +176,6 @@ class About extends Default {
     
     animateIn(req, done) {
 
-        classes.remove(config.$body, 'is-loading')
         classes.add(config.$body, `is-${this.slug}`)
         
         const tl = new TimelineMax({ paused: true, onComplete: done })
@@ -190,8 +189,7 @@ class About extends Default {
         this.slider && this.slider.index != 0 && this.slider.goTo(0)
         
         this.page.style.zIndex = '10'
-
-        classes.add(config.$body, 'is-loading')
+        
         classes.remove(config.$body, `is-${this.slug}`)
         
         const tl = new TimelineMax({ paused: true, onComplete: done })

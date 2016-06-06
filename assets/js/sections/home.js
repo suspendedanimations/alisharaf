@@ -53,13 +53,13 @@ class Home extends Default {
 
 		on(this.ui.all, 'click', this.animateInAll)
 		on(this.ui.close, 'click', this.animateOutAll)
-		
+
 		this.els.forEach((el) => {
 			on(el, 'click', this.onClick)
 			on(el, 'mouseenter', this.changeZIndex)
 			on(el, 'mouseleave', this.changeZIndex)
 		})
-		
+
 		this.links.forEach((el) => on(el, 'mouseenter', this.changeMask))
 		
 		this.initSmooth()
@@ -233,7 +233,6 @@ class Home extends Default {
 		
 		const work = req.previous && req.previous.route === `/work/:id`
 		
-		classes.remove(config.$body, `is-loading`)
 		classes.add(config.$body, `is-${this.slug}`)
 		
 		const half = config.height/2
