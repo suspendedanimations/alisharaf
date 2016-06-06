@@ -42,6 +42,13 @@
                     </g>
                 </defs>
             </svg>
+            <svg width="100%" height="100%" viewBox="0 0 900 900">
+                <defs>
+                    <g id="mask">
+                        <path d="M451.1,616.5c-54,0-105.8-9-153-27l153-382.6l153,382.6C556.9,607.5,505.1,616.5,451.1,616.5 M892.2,900.1L534.4-0.1H367.9L7.8,900.1h164.3l67.5-166.5c65.3,24.8,137.3,38.3,211.5,38.3s146.3-13.5,211.5-38.3l67.5,166.5H892.2L892.2,900.1z"/>
+                    </g>
+                </defs>
+            </svg>
             <svg width="100%" height="100%" viewBox="0 0 277.4 53.6">
                 <defs>
                     <g id="name">
@@ -60,20 +67,18 @@
             </svg>
         </div>
         {% set mask = diary[0] %}
-        {# style="background: url('{{ site.theme.link }}/assets/images/logo.png') center/contain no-repeat;" #}
-        <div class="logo hidden" data-svg="{{ site.theme.link }}/assets/images/svg/logo.svg" data-mask="{{ TimberImage(mask.get_field('cover')) }}">
+        <div class="logo hidden" data-svg="{{ site.theme.link }}/assets/images/svg/logo.svg" data-mask="{{ TimberImage(mask.get_field('cover').sizes.large) }}">
             <svg viewBox="0 0 40 40">
                 <use xlink:href="#logo"></use>
             </svg>
+            <canvas class="canvas"></canvas>
         </div>
         <div class="project-list">
             <span class="list-close link">Close</span>
             <div class="vertical-center">
                 <div class="vertical-el">
                     <div class="device-content">
-                        {% for post in diary %}
-                            <a href="/diary/{{ post.slug }}" data-index="{{ loop.index }}" data-mask="{{ TimberImage(post.get_field('cover')) }}">{{ post.title }}</a>
-                        {% endfor %}
+                        {% for post in diary %}<a href="/diary/{{ post.slug }}" data-index="{{ loop.index }}" data-mask="{{ TimberImage(post.get_field('cover').sizes.large) }}">{{ post.title }}</a>{% endfor %}
                     </div>
                 </div>
             </div>

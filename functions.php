@@ -64,7 +64,7 @@ class Site extends TimberSite {
 		$context['isMobile'] = $this->detect->isMobile();
 		$context['isTablet'] = $this->detect->isTablet();
 		
-        $args = array('post_type' => 'work', 'order_by' => 'date');
+        $args = array('post_type' => 'work', 'posts_per_page' => -1, 'order_by' => 'date');
         $context['diary'] = Timber::get_posts($args);
         
 		return $context;

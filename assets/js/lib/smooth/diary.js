@@ -51,7 +51,7 @@ class Diary extends Smooth {
         super.run()
 
         if(this.autoScroll && this.idle && this.vars.target < this.vars.bounding)
-            this.vars.target += .6
+            this.vars.target += .3
             
         this.dom.left.forEach((el, index) => el.style[config.prefix.transform] = `translate3d(-30%,${(config.height*index) - this.vars.current}px,0)`)
         this.dom.right.forEach((el, index) => el.style[config.prefix.transform] = `translate3d(30%,${(config.height*(index*-1)) + this.vars.current}px,0)`)

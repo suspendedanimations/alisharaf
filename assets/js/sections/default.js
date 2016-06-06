@@ -42,7 +42,7 @@ class Default {
         
         // config.prevRoute = window.location.pathname
     }
-
+    
     resize(width, height) {
         
         config.height = height
@@ -54,8 +54,12 @@ class Default {
     }
 
     debounce() {}
-
+    
     destroy() {
+        
+        // kill TweenMax delayedCalls
+        // http://greensock.com/forums/topic/8917-all-the-methods-to-kill-a-tween/
+        // TweenMax.killAll(false, false, true, false)
         
         this.a && utils.biggie.removeRoutingEL(this.a)
     }

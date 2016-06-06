@@ -6,8 +6,8 @@
     <div class="section">
         {% for post in diary %}
             <a href="/diary/{{ post.slug }}" class="el el--{{ loop.index is odd ? 'left' : 'right' }} intrinsic intrinsic--{{ loop.index is odd ? 'landscape' : 'portrait' }} ui-{{ loop.index is odd ? 'left' : 'right' }}">
-                <div class="el" data-src="{{ TimberImage(post.get_field('thumbnail')) }}"></div>
-                <label>{{ post.label }}</label>
+                <div class="el" data-src="{{ TimberImage(post.get_field('thumbnail').sizes.medium_large) }}"></div>
+                <label>{{ post.get_field('label') }}</label>
             </a>
         {% endfor %}
     </div>

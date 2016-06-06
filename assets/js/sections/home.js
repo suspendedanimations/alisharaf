@@ -49,22 +49,23 @@ class Home extends Default {
 	
 	addEvents() {
 
-		const image = config.$logo.getAttribute('data-mask')
-		
 		this.els = utils.js.arrayFrom(this.page.querySelectorAll('.section a'))
 
 		on(this.ui.all, 'click', this.animateInAll)
 		on(this.ui.close, 'click', this.animateOutAll)
-
-		this.els.forEach((el) => on(el, 'mouseenter', this.changeZIndex))
-		this.els.forEach((el) => on(el, 'mouseleave', this.changeZIndex))
+		
+		this.els.forEach((el) => {
+			on(el, 'click', this.onClick)
+			on(el, 'mouseenter', this.changeZIndex)
+			on(el, 'mouseleave', this.changeZIndex)
+		})
+		
 		this.links.forEach((el) => on(el, 'mouseenter', this.changeMask))
 		
 		this.initSmooth()
 		this.smooth.vs.off(this.smooth.calc)
 		
 		this.createCanvas()
-		this.createMask(image)
 	}
 
 	lazyLoad() {
@@ -104,28 +105,36 @@ class Home extends Default {
 		off(this.ui.all, 'click', this.animateInAll)
 		off(this.ui.close, 'click', this.animateOutAll)
 		
-		this.els.forEach((el) => off(el, 'mouseenter', this.changeZIndex))
-		this.els.forEach((el) => off(el, 'mouseleave', this.changeZIndex))
+		this.els.forEach((el) => {
+			off(el, 'click', this.onClick)
+			off(el, 'mouseenter', this.changeZIndex)
+			off(el, 'mouseleave', this.changeZIndex)
+		})
+
 		this.links.forEach((el) => off(el, 'mouseenter', this.changeMask))
 		
 		this.smooth && this.smooth.destroy()
 	}
 
+	onClick() {
+
+		classes.add(config.$body, 'is-loading')
+	}
+
 	createCanvas() {
 
-		const canvas = this.canvas = document.createElement('canvas')
+		const canvas = this.canvas = document.querySelector('.canvas')
 		const ctx = this.ctx = canvas.getContext('2d')
-		
-		config.$logo.appendChild(canvas)
 	}
 
 	removeMask() {
 
-		config.$logo.removeChild(this.canvas)
+		this.canvas = null
 	}
-
+	
 	createMask(image) {
 
+		const img = document.createElement('img')
 		const mask = document.createElement('img')
 
   		mask.onload = () => {
@@ -133,21 +142,19 @@ class Home extends Default {
   			const originwidth = mask.width
   			const originheight = mask.height
 
-  			const img = document.createElement('img')
-
   			img.onload = () => {
 
 		        const width = img.width
 		        const height = img.height
 
 		        const newidth = (originwidth / originheight) * height
-		        const x = ((newidth) - width) / 2
+		        const x = (newidth - width) / 2
 
 		        this.canvas.width = newidth
 	          	this.canvas.height = height
 
 	          	this.ctx.clearRect(0, 0, config.width, config.height)
-	    		this.ctx.drawImage(mask, 0, 0, newidth, height)
+				this.ctx.drawImage(mask, 0, 0, newidth, height)
 				this.ctx.globalCompositeOperation = 'source-atop'
 				this.ctx.drawImage(img, x, 0)
 	      	}
@@ -183,6 +190,8 @@ class Home extends Default {
 		if(this.all) return
 
 		this.all = true
+		
+		this.createMask(config.$logo.getAttribute('data-mask'))
 		
 		classes.remove(this.page, 'has-hover')
 		classes.add(this.ui.all, 'is-hidden')

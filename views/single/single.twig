@@ -11,16 +11,16 @@
                         <h1>{{ work.label }}</h1>
                         <div class="share">
                             <span>Share on :</span>
-                            <a href="https://twitter.com/intent/tweet?url={{ work.permalink }}&text={{ work.title }}" target="_blank" class="link">Twitter</a>
-                            <a href="https://www.facebook.com/sharer.php?u={{ work.permalink }}" target="_blank" class="link">Facebook</a>
+                            <a href="https://twitter.com/intent/tweet?url={{ work.link }}&text={{ work.title }}" target="_blank" class="link">Twitter</a>
+                            <a href="https://www.facebook.com/sharer.php?u={{ work.link }}" target="_blank" class="link">Facebook</a>
                         </div>
                     </div>
                 </div>
             </div>
             {% for row in work.get_field('images') %}
                 <div class="image image__{{ loop.index is odd ? 'right' : 'left' }}{% if loop.first %} margin-top{% endif %}">
-                    <div class="intrinsic intrinsic--{{ row.type }}">
-                        <div class="el" style="background-image: url('{{ row.image.url }}');"></div>
+                    <div class="intrinsic intrinsic--{{ row.type ? row.type : 'portrait' }}">
+                        <div class="el" style="background-image: url('{{ row.image.sizes.large }}');"></div>
                     </div>
                 </div>
             {% endfor %}

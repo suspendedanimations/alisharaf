@@ -24,6 +24,7 @@ html,
 body{
 	overflow: hidden;
     background: @grey-light;
+    backface-visibility: hidden;
 }
 
 html {
@@ -54,6 +55,10 @@ body {
     &.is-loaded {
         cursor: s-resize;
     }
+    
+    &.is-loading {
+        cursor: progress;
+    }
 
     > .logo {
         .absolute();
@@ -64,7 +69,7 @@ body {
         transition: opacity 1s linear;
 
         // preloader state
-        transform: scale3d(.13,.13,.13);
+        transform: scale(.13);
         will-change: transform;
 
         &.hidden {
@@ -72,7 +77,7 @@ body {
         }
         
         &.rotate {
-            transform: scale3d(.13,.13,.13) rotate3d(0,0,1,-90deg);
+            transform: scale(.13) rotate(-90deg);
             transition: opacity 1s linear, transform 2.5s @easeOutExpo;
         }
 

@@ -53,10 +53,7 @@ export default class Jello {
         // this.backgroundFill()
         this.buildStage()
         this.createBackgrounds()
-        // this.createMask()
         this.createFilters()
-
-        // this.imgContainer.mask = this.mask
         
         this.requestAnimationFrame()
 
@@ -141,60 +138,33 @@ export default class Jello {
 
             const bg = PIXI.Sprite.fromImage(el.image)
 
-            bg.texture.baseTexture.on('loaded', () => {
+            // Set image anchor to the center of the image
+            bg.anchor.x = 0.5
+            bg.anchor.y = 0.5
 
-                // Set image anchor to the center of the image
-                bg.anchor.x = 0.5
-                bg.anchor.y = 0.5
-
-                this.imgContainer.addChild(bg)
-                this.bgSpriteArray.push(bg)
-                
-                // set first image alpha to 1, all else to 0
-                bg.alpha = this.bgSpriteArray.length === 1 ? 1 : 0
-            })
+            this.imgContainer.addChild(bg)
+            this.bgSpriteArray.push(bg)
+            
+            // set first image alpha to 1, all else to 0
+            bg.alpha = this.bgSpriteArray.length === 1 ? 1 : 0
         })
-    }
-
-    createMask() {
-
-        // const mask = this.mask = PIXI.Sprite.fromImage(`${APP.THEME_URL}/assets/images/svg/logo.svg`)
-        // this.imgContainer.addChild(mask)
-        
-        var svg = document.querySelector('#logo')
-        var SVGGraphics = require('pixi-svg-graphics')
-        var mask = this.mask = new PIXI.Graphics()
-
-        mask.width = config.width
-        // mask.height = config.height
-
-        // console.log(mask.width, mask.height)
-        // mask.anchor.x = 0.5
-        // mask.anchor.y = 0.5
-
-        mask.beginFill(0xFFFFFF)
-        SVGGraphics.drawSVG(mask, svg)
-
-        mask.endFill();
-        
-        this.imgContainer.addChild(mask)
     }
 
     createFilters() {
         
         this.stage.addChild(this.displacementSprite)
-
+        
         this.displacementFilter.scale.x = this.displacementFilter.scale.y = this.winWidth / this.imgWidth
 
         this.imgContainer.filters = [this.displacementFilter]
     }
-
+    
     distortionLevel(amt) {
 
         if(!this.isTransitioning){
 
             this.isTransitioning = true
-
+            
             TweenLite.to(this.settings, 1, {
                 transition: amt,
                 speed: this.currentMap.speed,
@@ -217,8 +187,14 @@ export default class Jello {
     destroy() {
         
         cancelAnimationFrame(this.rAF)
-        this.settings = {}
+        this.settings = this.defaults
         this.bgArray = []
         this.bgSpriteArray = []
+
+        this.stage.destroy()
+        this.renderer.destroy()
+
+        // PIXI.utils.textureCache = {}
+        // PIXI.utils.baseTextureCache = {}
     }
 }

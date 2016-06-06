@@ -48,9 +48,9 @@
     }
     
     .jello-canvas {
-        .absolute();
-        .size(100%,100%);
-        // transform: translateX(-35%);
+        position: absolute; top: 0; left: 50%; bottom: 0;
+        height: 100%;
+        transform: translateX(-50%);
     }
     
     .intrinsic {
@@ -58,13 +58,14 @@
         width: 25%;
         margin: auto;
         transform: scale(.9);
+        padding-bottom: 30%;
         .hidden();
         
-        // @media @mobile {
-        //     width: 55%;
-        //     padding-bottom: 100%;
-        //     opacity: .2;
-        // }
+        @media @mobile {
+            width: 55%;
+            padding-bottom: 100%;
+            opacity: .2;
+        }
     }
 
     .vertical-center {
