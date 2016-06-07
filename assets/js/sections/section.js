@@ -46,6 +46,8 @@ class Section extends Default {
     }
     
     animateIn(req, done) {
+        
+        classes.remove(config.$body, 'is-loading')
                 
         const previous = req.previous && req.previous.route
         const home = req.previous && req.previous.route === (config.routes.default || config.routes.home)
@@ -86,7 +88,7 @@ class Section extends Default {
         if(config.isMobile) {
             this.smooth && (this.smooth.destroy(), this.smooth = null)
         } else {
-            !this.smooth && (this.addEvents(), console.log(this.smooth))
+            !this.smooth && (this.addEvents())
         }
     }
     

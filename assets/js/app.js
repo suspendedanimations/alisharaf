@@ -42,7 +42,7 @@ class Biggie {
         const target = e.srcElement
         const href = target.getAttribute('href')
 
-        console.log(target.hasAttribute('href'), href)
+        // console.log(target.hasAttribute('href'), href)
 
         this.open === true ? this.animateMenuOut() : this.animateMenuIn()
 

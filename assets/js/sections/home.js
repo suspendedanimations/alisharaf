@@ -254,8 +254,7 @@ class Home extends Default {
 		this.page.style.zIndex = '10'
 
 		const tween = () => {
-
-			classes.add(config.$body, `is-loading`)
+			
 			classes.remove(config.$body, `is-${this.slug}`)
 			classes.remove(this.page, 'has-hover')
 

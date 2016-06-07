@@ -94,16 +94,14 @@ class About extends Default {
         })
 
         this.jello.init()
-
-        console.log(this.jello)
+        
+        // console.log(this.jello)
     }
 
     onScroll(event) {
 
         if(config.isMobile) return
-
-        console.log('coucou')
-        
+                
         const index = event.current
         const previous = event.previous
         const down = event.direction === 'downwards'
