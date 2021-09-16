@@ -20,7 +20,7 @@
             {% for row in work.get_field('images') %}
                 <div class="image image__{{ loop.index is odd ? 'right' : 'left' }}{% if loop.first %} margin-top{% endif %}">
                     <div class="intrinsic intrinsic--{{ row.type ? row.type : 'portrait' }}">
-                        <div class="el" style="background-image: url('{{ row.image.sizes.large }}');"></div>
+                        <div class="el" style="background-image: url('{{ row.image.url }}');"></div>
                     </div>
                 </div>
             {% endfor %}
